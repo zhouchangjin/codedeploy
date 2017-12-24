@@ -1,0 +1,138 @@
+<html>
+<meta charset="utf-8">
+<head>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script>
+$(function(){
+	loadTable();
+
+});
+
+function next(){
+	var num=$('#pageId').val();
+	$('#pageId').val(parseInt(num)+1);
+	loadTable();
+}
+
+function prev(){
+	var num=$('#pageId').val();
+	$('#pageId').val(parseInt(num)-1);
+	loadTable();
+}
+
+function loadTable(){
+   var page=$('#pageId').val();
+   var url="/webapi/server/vm/"+page;
+   $.get(url,function(page){
+   		//console.log(data);
+   		var data=page.pageList;
+   		var html="<table><tr><th>编号</th><th>IP地址</th><th>机器名称</th><th>用户名</th><th>密码</th><th>注册程序</th><th>运行程序状态</th><th>停止</th><th>重启</th><th>刷新</th><th>删除</th><th>日志日期</th></tr>";
+   		for(var i=0;i<data.length;i++){
+   			var item=data[i];
+   			html+="<tr><td>"+item.id+"</td><td>"+item.ip+"</td><td>"+item.name+"</td><td>"+item.username+"</td><td>"+item.password+"</td><td><input id='register_"+item.id+"' type='text' value=''/><button id='registerBtn_"+item.id+"' onclick='register(\""+item.id+"\",\""+item.ip+"\")'>注册程序</button></td><td id='"+item.id+"_td'></td><td><button onclick='stop(\""+item.id+"\")'>停止</button></td><td><button onclick='start(\""+item.id+"\")'>启动</button></td><td><button onclick='update(\""+item.id+"\")'>刷新</button></td><td><button id='delete_btn_"+item.id+"' onclick='del(\""+item.id+"\")'>删除</button></td><td id='"+item.id+"_log_td'></td></tr>";
+   			//setTimeout("initial('"+item.id+"')",3000*i);
+   			setTimeout("getProgram('"+item.id+"','"+item.ip+"')",1000);
+   		}
+   		html+="<table>";
+   		$("#vmtable").html(html);
+   });
+}
+
+function getProgram(id,ip){
+	registered(id,ip);
+}
+
+
+
+function update(id){
+	var processName=map[id];
+	//alert(processName);
+	var tdId=id+"_td";
+	var url="/webapi/vm/"+id+"/process/"+processName;
+	$.get(url,function(data){
+		var html=data.running;
+		if(html){
+			$("#"+tdId).html("<span>运行中</span>");
+		}else{
+			$("#"+tdId).html("<span>未运行</span>");
+		}
+		
+	});
+	
+	var tdId1=id+"_log_td";
+	var url1="/webapi/vm/"+id+"/process/"+processName+"/log";
+	$.get(url1,function(data){
+		var html=""+data.mongth+"-"+data.day+"-"+data.time;
+		$("#"+tdId1).html(html);
+	});
+}
+
+function stop(id){
+	var processName=map[id];
+	var url="/webapi/vm/"+id+"/process/"+processName+"/stop";
+	$.post(url,function(data){
+		console.log(data);
+	});
+
+}
+
+function start(id){
+	var processName=map[id];
+	var url="/webapi/vm/"+id+"/process/"+processName+"/start";
+	$.post(url,function(data){
+		console.log(data);
+	});
+
+}
+
+function initial(id){
+  update(id);
+  setInterval("update('"+id+"')",300000);
+}
+
+function register(id,ip){
+	var tdId1="register_"+id;
+	var name=$("#"+tdId1).val();
+	map[id]=name;
+	var url1="/webapi/server/register/"+ip+"/"+name;
+	$.get(url1,function(data){
+		var html=""+data.mongth+"-"+data.day+"-"+data.time;
+		$("#"+tdId1).html(html);
+	});
+}
+var map={};
+function registered(id,ip){
+	var tdId1="register_"+id;
+	var url1="/webapi/server/register/"+ip;
+	$.get(url1,function(data){
+		$("#"+tdId1).val(data.value);
+		map[id]=data.value;
+	});
+}
+
+function del(id){
+
+	var url1="/webapi/server/vm/"+id;
+	$.ajax({
+		dataType:"json",
+		type:"DELETE",
+		url:url1,
+		success:function(data){
+			console.log(data);
+			loadTable();
+		}
+	})
+}
+
+</script>
+</head>
+
+
+<body>
+<div id="vmtable"></div>
+<div id="pager"><span><button onclick='prev()'>上一页</button><button onclick='next()'>下一页</button></span><span>当前为第</span><input type='text' id="pageId" value=1>页</div>
+</body>
+
+
+
+</html>
