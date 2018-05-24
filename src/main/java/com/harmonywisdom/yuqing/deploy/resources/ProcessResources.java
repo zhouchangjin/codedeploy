@@ -7,7 +7,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.harmonywisdom.cached.InMemoryDB;
 import com.harmonywisdom.codedeploy.FileStatus;
 import com.harmonywisdom.codedeploy.FileSystemUtil;
 import com.harmonywisdom.codedeploy.LinuxShell;

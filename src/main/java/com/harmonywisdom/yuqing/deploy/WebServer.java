@@ -6,7 +6,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AllowSymLinkAliasChecker;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.harmonywisdom.yuqing.deploy.handler.RootHandler;
 
 public class WebServer {
 
