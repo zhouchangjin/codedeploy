@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import com.alibaba.fastjson.JSON;
 import com.harmonywisdom.cached.InMemoryDB;
 import com.harmonywisdom.model.Application;
-import com.harmonywisdom.model.VMServer;
 
 @Path("app")
 public class ProgrammeResources {

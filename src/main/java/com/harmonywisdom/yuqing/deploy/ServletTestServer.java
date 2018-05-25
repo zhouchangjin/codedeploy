@@ -1,13 +1,7 @@
 package com.harmonywisdom.yuqing.deploy;
 
-import java.net.URI;
-
-import javax.ws.rs.core.UriBuilder;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
-import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
 
 import com.harmonywisdom.restproxy.servlet.RestProxyServlet;
 
