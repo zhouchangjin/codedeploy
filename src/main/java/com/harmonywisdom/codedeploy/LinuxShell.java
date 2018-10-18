@@ -124,6 +124,7 @@ public class LinuxShell {
 		           break;
 		         res+=line+"\n";
 			}
+			
 	        BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
 	        while (true){
 		         String line = br.readLine();
@@ -133,6 +134,7 @@ public class LinuxShell {
 		         res+=line+"\n";
 	        }
 	        br.close();
+	        brerr.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,6 +168,7 @@ public class LinuxShell {
 		           break;
 		         res+=line+"\n";
 	        }
+	        brerr.close();
 	        br.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
