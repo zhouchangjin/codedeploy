@@ -59,6 +59,7 @@ public class DeployCode {
 					
 				}
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,6 +86,7 @@ public class DeployCode {
 				}
 				
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
